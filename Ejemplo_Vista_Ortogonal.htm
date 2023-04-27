@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body>
+        <script type="module">
+            import * as THREE from 'https://unpkg.com/three/build/three.module.js';
+
+            // Creamos una escena
+            var scene = new THREE.Scene();
+
+            //Grid Helper: Rejilla para establecer un piso
+            const size = 1000;
+            const divisions = 20;
+
+            const gridHelper = new THREE.GridHelper( size, divisions );
+            scene.add( gridHelper );
+
+            //Axes Helper: Linea en el eje x, y, z, ayuda a entender la perspectiva
+            const axesHelper = new THREE.AxesHelper( 300 );
+            axesHelper.setColors( 0xffff00,  0xff0000, 0x0000ff);
+            scene.add( axesHelper );
+
+            // Creamos una geometría de un plano
+            var planeGeometry = new THREE.PlaneGeometry(100, 100);
+
+            // Creamos un material de color blanco
+            var planeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
+            // Creamos una malla a partir de la geometría y el material
+            var planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+
+            // Agregamos la malla a la escena
+            scene.add(planeMesh);
+
+            // Creamos una cámara ortográfica
+            var camera = new THREE.OrthographicCamera(
+            window.innerWidth / -2, // Left
+            window.innerWidth / 2, // Right
+            window.innerHeight / 2, // Top
+            window.innerHeight / -2, // Bottom
+            1, // Near
+            100 // Far
+            );
+
+            // Establecemos la posición de la cámara
+            camera.position.set(0, 0, 1);
+
+            // Establecemos la dirección de la cámara
+            camera.lookAt(scene.position);
+
+            // Agregamos la cámara a la escena
+            scene.add(camera);
+
+            // Creamos un renderizador de Three.js
+            var renderer = new THREE.WebGLRenderer();
+
+            // Establecemos el tamaño del renderizador
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            // Agregamos el renderizador al documento
+            document.body.appendChild(renderer.domElement);
+
+            // Renderizamos la escena con la cámara ortográfica
+            renderer.render(scene, camera);
+
+		</script>
+	</body>
+</html>
